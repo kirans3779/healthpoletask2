@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <style>
+    .add {
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 offset-3">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="text-center text-primary">Add Favorite Book</h3>
+            </div>
+            <div class="card-body">
+              <form action="" id="form">
+                <div>
+                  <label for="">Full Name</label>
+                  <input
+                    type="text"
+                    name="full name"
+                    id=""
+                    class="form-control"
+                    placeholder="Kiran Sonwane"
+                  />
+                </div>
+                <div>
+                  <label for="">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id=""
+                    class="form-control"
+                    placeholder="Kirans41234@gmail.com"
+                  />
+                </div>
+                <div>
+                  <label for="">Contact No</label>
+                  <input
+                    type="mail"
+                    name="contact no"
+                    id=""
+                    class="form-control"
+                    placeholder="919960****16"
+                  />
+                </div>
+                <div>
+                  <label for=""> Add Favorite Book</label>
+                  <input
+                    type="text"
+                    id="myInput"
+                    onkeyup="myFunction()"
+                    placeholder="Search Books.."
+                    title="Type in a name"
+                    class="form-control"
+                  />
+                </div>
+                <div id="field"></div>
+                <input
+                  type="button"
+                  class="btn btn-outline-primary form-control"
+                  value="Add More"
+                  onclick="addfield()"
+                />
+
+                <input
+                  type="submit"
+                  class="btn btn-outline-warning offset-5 mt-3"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 offset-3">
+          <table class="table table-responsive" id="myTable">
+            <thead>
+              <tr>
+                <th>Auther</th>
+                <th>Subject</th>
+                <th>Title</th>
+              </tr>
+            </thead>
+            <tbody id="output"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function addfield() {
+        let str = `<div>
+                  <label for="">Book </label>
+                  <input
+                    type="text"
+                    name="Book "
+                    id=""
+                    class="form-control"
+                    placeholder="Add Book"
+                  />
+                </div>`;
+        document.getElementById("field").innerHTML += str;
+      }
+      let i = 0;
+      let str;
+      let data;
+      let link = "http://openlibrary.org/search.json?q='search query'";
+      $(function () {
+        $.ajax(link, {
+          type: "GET",
+          success: function (link) {
+            console.log(link.docs);
+            while (i <= link.docs.length) {
+              console.log(link.docs[i].title);
+              let str = `
+              <tbody>
+                <tr>
+                  <td><p>${link.docs[i].author_name}</td>
+                  <td><p>${link.docs[i].title}</td>
+                  <td><p>${link.docs[i].subject}</td>
+                
+                </tr>
+              </tbody>
+        `;
+              document.getElementById("output").innerHTML += str;
+              i++;
+            }
+          },
+        });
+      });
+
+      function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
